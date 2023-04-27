@@ -27,7 +27,7 @@ For the Thermcoin network. you'll need to initialize **every**
 set:
 
 ```shell
-$ therm init path/to/genesis.json
+$ ./build/bin/therm init genesis.json
 ```
 
 #### Creating the rendezvous point (DEV ONLY)
@@ -35,8 +35,8 @@ $ therm init path/to/genesis.json
 Bootnodes jumpstart the network by allowing nodes to quickly connect and find other peers.
 
 ```shell
-$ bootnode --genkey=boot.key
-$ bootnode --nodekey=boot.key
+$ ./build/bin/bootnode --genkey=boot.key
+$ ./build/bin/bootnode --nodekey=boot.key
 ```
 
 Bootnodes will display an `enode` URL that other nodes can use to connect to it and exchange peer information. Make sure to
@@ -55,7 +55,7 @@ probably also be desirable to keep the data directory of your private network se
 do also specify a custom `--datadir` flag.
 
 ```shell
-$ therm --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url>
+$ ./build/bin/therm --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url>
 ```
 
 _Note: Since your network will be completely cut off from the main and test networks, you'll
@@ -73,3 +73,65 @@ Which will start mining blocks and transactions on a single CPU thread, creditin
 proceedings to the account specified by `--miner.etherbase`. You can further tune the mining
 by changing the default gas limit blocks converge to (`--miner.targetgaslimit`) and the price
 transactions are accepted at (`--miner.gasprice`).
+
+### DEV TESTNET GUIDE
+
+#### First create datadirs and account:
+
+```shell
+$ mkdir boot1 node1 node2 node3
+$ ./build/bin/therm --datadir node3 account new
+```
+
+#### Copy the account addrs into the genesis.json alloc. Init datadirs
+
+```shell
+$ ./build/bin/therm --datadir boot1 init genesis.json
+$ ./build/bin/therm --datadir node1 init genesis.json
+$ ./build/bin/therm --datadir node2 init genesis.json
+$ ./build/bin/therm --datadir node3 init genesis.json
+```
+
+#### Boot node:
+
+```shell
+$ ./build/bin/bootnode --genkey=boot.key
+$ ./build/bin/bootnode --nodekey=boot.key -addr :30305
+```
+
+Copy the enode-url
+
+Now create 3 different nodes in different terminals
+
+#### Node with javascript console and account:
+
+```shell
+$ ./build/bin/therm --datadir node1 --port 30306 --bootnodes <enode-url> --unlock <0xADDRESS> --password node1/password.txt --authrpc.port 8551
+```
+
+#### Node with HTTP Access:
+
+```shell
+$ ./build/bin/therm --datadir node2 --port 30307 --bootnodes <enode-url>  --http --http.addr "localhost" --http.port 8545 --http.api "eth,web3,net" --http.corsdomain "*"
+```
+
+#### Mining Node:
+
+```shell
+$ ./build/bin/therm --datadir node3 --port 30308 --bootnodes <enode-url>  --mine --miner.threads=1 --miner.etherbase=<0xADDRESS>
+```
+
+#### Javascript console commands
+
+```shell
+> eth.getBalance(eth.accounts[0])
+> eth.sendTransaction({
+  to: '0x00',
+  from: eth.accounts[0],
+  value: 25000
+});
+```
+
+```shell
+$ rm -rf boot1 node1 node2 node3 boot.key
+```

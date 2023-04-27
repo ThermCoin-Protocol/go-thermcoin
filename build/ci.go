@@ -68,7 +68,7 @@ var (
 	// Files that end up in the geth*.zip archive.
 	gethArchiveFiles = []string{
 		"COPYING",
-		executablePath("geth"),
+		executablePath("therm"),
 	}
 
 	// Files that end up in the geth-alltools*.zip archive.
@@ -77,7 +77,7 @@ var (
 		executablePath("abigen"),
 		executablePath("bootnode"),
 		executablePath("evm"),
-		executablePath("geth"),
+		executablePath("therm"),
 		executablePath("puppeth"),
 		executablePath("rlpdump"),
 		executablePath("clef"),
@@ -98,8 +98,8 @@ var (
 			Description: "Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
-			BinaryName:  "geth",
-			Description: "Ethereum CLI client.",
+			BinaryName:  "therm",
+			Description: "Thermcoin CLI client.",
 		},
 		{
 			BinaryName:  "puppeth",
@@ -950,7 +950,7 @@ func doWindowsInstaller(cmdline []string) {
 			continue
 		}
 		allTools = append(allTools, filepath.Base(file))
-		if filepath.Base(file) == "geth.exe" {
+		if filepath.Base(file) == "therm.exe" {
 			gethTool = file
 		} else {
 			devTools = append(devTools, file)
@@ -1162,7 +1162,7 @@ func doXCodeFramework(cmdline []string) {
 
 	// Create the archive.
 	maybeSkipArchive(env)
-	archive := "geth-" + archiveBasename("ios", params.ArchiveVersion(env.Commit))
+	archive := "therm-" + archiveBasename("ios", params.ArchiveVersion(env.Commit))
 	if err := os.MkdirAll(archive, 0755); err != nil {
 		log.Fatal(err)
 	}
