@@ -1,7 +1,8 @@
 {
     "config": {
-        "chainId": 42221,
+        "chainId": 4221,
         "homesteadBlock": 0,
+        "daoForkSupport": false,
         "eip150Block": 0,
         "eip155Block": 0,
         "eip158Block": 0,
@@ -14,7 +15,7 @@
     },
     "alloc": {
         "9661dd2D9B44F1d3775d392E711C6A0eECB4C05b": {
-            "balance": "500000"
+            "balance": "500000000000000"
         }
     },
     "coinbase": "0x0000000000000000000000000000000000000000",
