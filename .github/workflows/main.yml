@@ -31,8 +31,8 @@ jobs:
       - name: Build
         run: make all
 
-      - name: List downloaded artifacts MacOS
-        run: ls -la ./binaries-macos-latest
+      - name: List Built Binaries
+      run: ls -la ./build/bin/
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
