@@ -37,6 +37,9 @@ jobs:
           name: binaries-${{ matrix.os }}
           path: ./build/bin/*
 
+      - name: List Built Binaries
+        run: ls -la ./build/bin/
+
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -56,6 +59,9 @@ jobs:
         with:
           name: binaries-macos-latest
 
+      - name: List downloaded artifacts
+          run: ls -la
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -66,9 +72,6 @@ jobs:
           release_name: Release ${GITHUB_RUN_ID}
           draft: false
           prerelease: false
-
-      - name: List files
-        run: ls -R ./binaries-ubuntu-latest
 
       - name: Upload Release Asset Ubuntu
         id: upload-release-asset-ubuntu
