@@ -56,18 +56,14 @@ jobs:
         with:
           name: binaries-macos-latest
 
-      - name: Set TAG_NAME
-        id: set_tag
-        run: echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
-          tag_name: ${{ steps.set_tag.outputs.TAG_NAME }}
-          release_name: Release ${{ steps.set_tag.outputs.TAG_NAME }}
+          tag_name: tag-${{ github.sha }}
+          release_name: Release ${GITHUB_RUN_ID}
           draft: false
           prerelease: false
 
