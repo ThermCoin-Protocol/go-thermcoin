@@ -74,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-ubuntu-latest/therm
+          asset_path: ./build/bin/therm
           asset_name: therm-ubuntu
           asset_content_type: application/octet-stream
 
@@ -85,7 +85,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-windows-latest/therm
+          asset_path: ./build/bin/therm
           asset_name: therm-windows.exe
           asset_content_type: application/octet-stream
 
@@ -96,6 +96,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-macos-latest/therm
+          asset_path: ./build/bin/therm
           asset_name: therm-macos
           asset_content_type: application/octet-stream
