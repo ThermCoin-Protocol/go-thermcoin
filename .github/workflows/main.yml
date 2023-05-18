@@ -46,15 +46,24 @@ jobs:
         with:
           name: binaries-ubuntu-latest
 
+      - name: List files Ubuntu
+        run: find . -name 'therm'
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: binaries-windows-latest
 
+      - name: List files Windows
+        run: find . -name 'therm.exe'
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: binaries-macos-latest
+
+      - name: List files MacOS
+        run: find . -name 'therm'
 
       - name: Create Release
         id: create_release
