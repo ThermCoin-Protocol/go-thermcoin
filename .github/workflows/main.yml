@@ -46,24 +46,15 @@ jobs:
         with:
           name: binaries-ubuntu-latest
 
-      - name: List files Ubuntu
-        run: find . -name 'therm'
-
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: binaries-windows-latest
 
-      - name: List files Windows
-        run: find . -name 'therm.exe'
-
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: binaries-macos-latest
-
-      - name: List files MacOS
-        run: find . -name 'therm'
 
       - name: Create Release
         id: create_release
@@ -83,7 +74,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bin/therm
+          asset_path: ./therm
           asset_name: therm-ubuntu
           asset_content_type: application/octet-stream
 
@@ -94,7 +85,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bin/therm
+          asset_path: ./therm
           asset_name: therm-windows.exe
           asset_content_type: application/octet-stream
 
@@ -105,6 +96,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bin/therm
+          asset_path: ./therm
           asset_name: therm-macos
           asset_content_type: application/octet-stream
