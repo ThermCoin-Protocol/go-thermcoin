@@ -74,19 +74,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-ubuntu-latest/thermcoin
-          asset_name: thermcoin-ubuntu
+          asset_path: ./binaries-ubuntu-latest/build/bin/therm
+          asset_name: therm-ubuntu
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset Windows
         id: upload-release-asset-windows
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-windows-latest/thermcoin.exe
-          asset_name: thermcoin-windows.exe
+          asset_path: ./binaries-windows-latest/build/bin/therm
+          asset_name: therm-windows.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset MacOS
@@ -96,6 +96,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./binaries-macos-latest/thermcoin
-          asset_name: thermcoin-macos
+          asset_path: ./binaries-macos-latest/build/bin/therm
+          asset_name: therm-macos
           asset_content_type: application/octet-stream
