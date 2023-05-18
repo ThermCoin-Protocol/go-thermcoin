@@ -1,0 +1,101 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            asset_name: thermcoin-ubuntu
+          - os: windows-latest
+            asset_name: thermcoin-windows.exe
+          - os: macos-latest
+            asset_name: thermcoin-macos
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Build
+        run: make all
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: binaries-${{ matrix.os }}
+          path: ./build/bin/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: binaries-ubuntu-latest
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: binaries-windows-latest
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: binaries-macos-latest
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset Ubuntu
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries-ubuntu-latest/thermcoin
+          asset_name: thermcoin-ubuntu
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries-windows-latest/thermcoin.exe
+          asset_name: thermcoin-windows.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset MacOS
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./binaries-macos-latest/thermcoin
+          asset_name: thermcoin-macos
+          asset_content_type: application/octet-stream
