@@ -3,7 +3,7 @@ name: Build and Release
 on:
   push:
     branches:
-      - master
+      - thermcoin-beta
 
 jobs:
   build:
