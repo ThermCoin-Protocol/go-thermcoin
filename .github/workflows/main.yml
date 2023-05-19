@@ -81,17 +81,6 @@ jobs:
           asset_name: therm-ubuntu
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset Windows
-        id: upload-release-asset-windows
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/therm.exe
-          asset_name: therm-windows.exe
-          asset_content_type: application/octet-stream
-
       - name: Upload Release Asset MacOS
         id: upload-release-asset-macos
         uses: actions/upload-release-asset@v1
@@ -101,4 +90,15 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./macos/therm
           asset_name: therm-macos
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./windows/therm
+          asset_name: therm-windows.exe
           asset_content_type: application/octet-stream
