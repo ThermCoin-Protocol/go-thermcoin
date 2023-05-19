@@ -63,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: tag-${{ github.sha }}
-          release_name: Release ${{GITHUB_RUN_ID}}
+          release_name: Release ${{ github.run_id }}
           draft: false
           prerelease: false
 
