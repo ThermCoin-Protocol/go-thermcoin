@@ -39,6 +39,7 @@ echo "Node 1 address: $ADDR"
 therm init --datadir myNode genesis.json
 
 BOOTNODE_ID=enode://9f2c7a4a04fa4c4d72fa376c0e34d7979e6b44d0053fd235f8efc9d5c13f61867795fda32b6037df70e28f7959065e45fff999a67beef5c46258b4ae075cb929
+IP_ADDRESS=76.235.135.8
 
 # # Step 8: Start node
-therm --datadir myNode --networkid 4221 --port 30303 --bootnodes $BOOTNODE_ID@127.0.0.1:30301 --mine --miner.etherbase=$ADDR
+therm --datadir myNode --networkid 4221 --port 30303 --bootnodes $BOOTNODE_ID@$IP_ADDRESS:30301 --mine --miner.etherbase=$ADDR
