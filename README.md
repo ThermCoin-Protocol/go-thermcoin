@@ -1,5 +1,17 @@
 ### Connecting to Thermcoin Network
 
+#### RPC-URL
+
+3.80.95.168:8545
+
+#### Bootnode enode-url
+
+enode://9b7aef0c30f6f51036e26067181768d138b01529607fe21b26897e7e5ebd8f9a75fc4b3bf266bf6dc27942b8d6b52d21af414942a4f2604a648adb308a156fa8@3.80.95.168:30303
+
+#### Node enode-url
+
+enode://38f300385a6ece61f90c8ef45ededf4257a7e3f3942345e3606ec257d32098865787b07326d59a48cb9757eb2a7006474396ab8bfe6f86c2a039fcefc92a96ba@3.80.95.168:30304
+
 #### Download ThermCoin binaries or build from source
 
 Thermcoin binaries are released and hosted on github for download. Otherwise, clone this repo and
@@ -37,6 +49,7 @@ Bootnodes jumpstart the network by allowing nodes to quickly connect and find ot
 ```shell
 $ bootnode --genkey=boot.key
 $ bootnode --nodekey=boot.key
+$ bootnode --nodekey=boot.key -verbosity 7 -addr "172.31.22.253:30303"
 ```
 
 Bootnodes will display an `enode` URL that other nodes can use to connect to it and exchange peer information. Make sure to
