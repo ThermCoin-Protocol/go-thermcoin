@@ -35,6 +35,8 @@ jobs:
         run: |
           mkdir -p build/artifacts
           zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: binaries-${{ matrix.os }}
