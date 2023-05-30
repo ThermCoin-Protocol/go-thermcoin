@@ -11,15 +11,16 @@
         "petersburgBlock": 0,
         "istanbulBlock": 0,
         "berlinBlock": 0,
-        "londonBlock": 0
+        "londonBlock": 0,
+        "ethash": {}
     },
     "alloc": {
         "b0b85Ae295dDa42E7E189864cA1251703F3b8254": {
             "balance": "9999999999999999999999999999999999"
         }
     },
-    "coinbase": "0x0000000000000000000000000000000000000000",
-    "difficulty": "0x20000",
+    "coinbase": "0xb0b85Ae295dDa42E7E189864cA1251703F3b8254",
+    "difficulty": "0x400",
     "extraData": "0x546865726d436f696e",
     "gasLimit": "0x8000000",
     "nonce": "0x0000000000000042",

@@ -61,7 +61,6 @@ var (
 	MainnetChainConfig = &ChainConfig{
 		ChainID:                       big.NewInt(4222),
 		HomesteadBlock:                big.NewInt(0),
-		DAOForkBlock:                  nil,
 		DAOForkSupport:                false,
 		EIP150Block:                   big.NewInt(0),
 		EIP155Block:                   big.NewInt(0),
@@ -70,12 +69,8 @@ var (
 		ConstantinopleBlock:           big.NewInt(0),
 		PetersburgBlock:               big.NewInt(0),
 		IstanbulBlock:                 big.NewInt(0),
-		MuirGlacierBlock:              nil,
 		BerlinBlock:                   big.NewInt(0),
 		LondonBlock:                   big.NewInt(0),
-		ArrowGlacierBlock:   		   nil,
-		TerminalTotalDifficulty:       nil, // 58_750_000_000_000_000_000_000
-		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 	}
 
