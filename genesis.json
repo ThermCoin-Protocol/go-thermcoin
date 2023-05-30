@@ -2,7 +2,6 @@
     "config": {
         "chainId": 4222,
         "homesteadBlock": 0,
-        "daoForkSupport": false,
         "eip150Block": 0,
         "eip155Block": 0,
         "eip158Block": 0,
@@ -11,7 +10,6 @@
         "petersburgBlock": 0,
         "istanbulBlock": 0,
         "berlinBlock": 0,
-        "londonBlock": 0,
         "ethash": {}
     },
     "alloc": {
@@ -19,12 +17,6 @@
             "balance": "9999999999999999999999999999999999"
         }
     },
-    "coinbase": "0xb0b85Ae295dDa42E7E189864cA1251703F3b8254",
     "difficulty": "0x400",
-    "extraData": "0x546865726d436f696e",
-    "gasLimit": "0x8000000",
-    "nonce": "0x0000000000000042",
-    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "timestamp": "0x00"
+    "gasLimit": "0x8000000"
 }

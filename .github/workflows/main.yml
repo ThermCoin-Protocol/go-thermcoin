@@ -66,11 +66,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           tag_name: tag-${{ github.sha }}
-          release_name: Release ${{ github.run_id }}
+          release_name: Thermcoin Beta ${{ github.run_id }}
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset Ubuntu
+      - name: Upload Therm Ubuntu
         id: upload-release-asset-ubuntu
         uses: actions/upload-release-asset@v1
         env:
@@ -81,7 +81,18 @@ jobs:
           asset_name: therm-ubuntu
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset MacOS
+      - name: Upload Bootnode Ubuntu
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ubuntu/bootnode
+          asset_name: bootnode-ubuntu
+          asset_content_type: application/octet-stream
+
+      - name: Upload Therm MacOS
         id: upload-release-asset-macos
         uses: actions/upload-release-asset@v1
         env:
@@ -92,7 +103,18 @@ jobs:
           asset_name: therm-macos
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset Windows
+      - name: Upload Bootnode MacOS
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./macos/bootnode
+          asset_name: bootnode-macos
+          asset_content_type: application/octet-stream
+
+      - name: Upload Therm Windows
         id: upload-release-asset-windows
         uses: actions/upload-release-asset@v1
         env:
@@ -101,4 +123,15 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./windows/therm.exe
           asset_name: therm-windows.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Bootnode Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./windows/bootnode.exe
+          asset_name: bootnode-windows.exe
           asset_content_type: application/octet-stream
