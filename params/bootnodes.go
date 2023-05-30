@@ -22,7 +22,7 @@ import "github.com/ethereum/go-ethereum/common"
 // the main Ethereum network.
 var MainnetBootnodes = []string{
 	// Ethereum Foundation Go Bootnodes
-	"enode://9b7aef0c30f6f51036e26067181768d138b01529607fe21b26897e7e5ebd8f9a75fc4b3bf266bf6dc27942b8d6b52d21af414942a4f2604a648adb308a156fa8@3.80.95.168:30303",		// Thermcoin Network
+	"enode://088a6f17a347f785d478e8cebe52e45616293f758f8ec97fbeba95c6724a5177921a768e2502e178d61c0551ac89e4b4870068c7b03e7b9a52946340fa2a124e@3.80.95.168:30303",		// Thermcoin Network
 	// "enode://d860a01f9722d78051619d1e2351aba3f43f943f6f00718d1b9baa4101932a1f5011f16bb2b1bb35db20d6fe28fa0bf09636d26a87d31de9ec6203eeedb1f666@18.138.108.67:30303",   // bootnode-aws-ap-southeast-1-001
 	// "enode://22a8232c3abc76a16ae9d6c3b164f98775fe226f0917b0ca871128a74a8e9630b458460865bab457221f1d448dd9791d24c4e5d88786180ac185df813a68d4de@3.209.45.79:30303",     // bootnode-aws-us-east-1-001
 	// "enode://8499da03c47d637b20eee24eec3c356c9a2e6148d6fe25ca195c7949ab8ec2c03e3556126b0d7ed644675e78c4318b08691b7b57de10e5f0d40d05b09238fa0a@52.187.207.27:30303",   // bootnode-azure-australiaeast-001
