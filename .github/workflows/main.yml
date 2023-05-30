@@ -56,3 +56,68 @@ jobs:
         with:
           name: binaries-${{ matrix.os }}
           path: build/artifacts/*
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts Ubuntu
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts-ubuntu
+          path: ubuntu
+
+      - name: Download artifacts Windows
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts-windows
+          path: windows
+
+      - name: Download artifacts MacOS
+        uses: actions/download-artifact@v2
+        with:
+          name: artifacts-macos
+          path: macos
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: tag-${{ github.sha }}
+          release_name: Thermcoin Beta ${{ github.run_id }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Therm Ubuntu
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ubuntu/thermcoin-ubuntu.zip
+          asset_name: thermcoin-ubuntu.zip
+          asset_content_type: application/zip
+
+      - name: Upload Therm MacOS
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./macos/thermcoin-macos.zip
+          asset_name: thermcoin-macos.zip
+          asset_content_type: application/zip
+
+      - name: Upload Therm Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./windows/thermcoin-windows.zip
+          asset_name: thermcoin-windows.zip
+          asset_content_type: application/zip
