@@ -31,15 +31,17 @@ jobs:
       - name: Build
         run: make all
 
-      - name: Archive production artifacts
+      - name: Archive production artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          Compress-Archive -Path ./build/bin/* -DestinationPath build/artifacts/${{ matrix.asset_name }}.zip
+        shell: powershell
+
+      - name: Archive production artifacts (Linux/MacOS)
+        if: matrix.os != 'windows-latest'
         run: |
           mkdir -p build/artifacts
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            Compress-Archive -Path ./build/bin/* -DestinationPath build/artifacts/${{ matrix.asset_name }}.zip
-          else
-            zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
-          fi
-        shell: bash
+          zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
