@@ -32,32 +32,23 @@ jobs:
         run: make all
 
       - name: Archive production artifacts
+        run: |
+          mkdir -p build/artifacts
+          zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
         uses: actions/upload-artifact@v2
         with:
           name: binaries-${{ matrix.os }}
-          path: ./build/bin/*
+          path: build/artifacts/*
 
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifacts Ubuntu
+      - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: binaries-ubuntu-latest
-          path: ubuntu
-
-      - name: Download artifacts Windows
-        uses: actions/download-artifact@v2
-        with:
-          name: binaries-windows-latest
-          path: windows
-
-      - name: Download artifacts MacOS
-        uses: actions/download-artifact@v2
-        with:
-          name: binaries-macos-latest
-          path: macos
+          name: binaries-${{ matrix.os }}
+          path: ${{ matrix.os }}
 
       - name: Create Release
         id: create_release
@@ -70,68 +61,12 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Therm Ubuntu
-        id: upload-release-asset-ubuntu
+      - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu/therm
-          asset_name: therm-ubuntu
-          asset_content_type: application/octet-stream
-
-      - name: Upload Bootnode Ubuntu
-        id: upload-release-asset-ubuntu
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu/bootnode
-          asset_name: bootnode-ubuntu
-          asset_content_type: application/octet-stream
-
-      - name: Upload Therm MacOS
-        id: upload-release-asset-macos
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macos/therm
-          asset_name: therm-macos
-          asset_content_type: application/octet-stream
-
-      - name: Upload Bootnode MacOS
-        id: upload-release-asset-macos
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macos/bootnode
-          asset_name: bootnode-macos
-          asset_content_type: application/octet-stream
-
-      - name: Upload Therm Windows
-        id: upload-release-asset-windows
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/therm.exe
-          asset_name: therm-windows.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Bootnode Windows
-        id: upload-release-asset-windows
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/bootnode.exe
-          asset_name: bootnode-windows.exe
-          asset_content_type: application/octet-stream
+          asset_path: ./${{ matrix.os }}/binaries-${{ matrix.os }}.zip
+          asset_name: binaries-${{ matrix.os }}.zip
+          asset_content_type: application/zip
