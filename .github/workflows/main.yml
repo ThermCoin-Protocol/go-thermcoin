@@ -31,16 +31,24 @@ jobs:
       - name: Build
         run: make all
 
+      - name: Create artifacts directory
+        run: New-Item -Path . -Name "build\artifacts" -ItemType "directory" -Force
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+
+      - name: Create artifacts directory
+        run: mkdir -p build/artifacts
+        if: matrix.os != 'windows-latest'
+
       - name: Archive production artifacts (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          Compress-Archive -Path ./build/bin/* -DestinationPath build/artifacts/${{ matrix.asset_name }}.zip
+          Compress-Archive -Path .\build\bin\* -DestinationPath .\build\artifacts\${{ matrix.asset_name }}.zip
         shell: powershell
 
       - name: Archive production artifacts (Linux/MacOS)
         if: matrix.os != 'windows-latest'
         run: |
-          mkdir -p build/artifacts
           zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
 
       - name: Upload Artifacts
