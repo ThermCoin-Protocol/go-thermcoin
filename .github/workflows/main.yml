@@ -34,41 +34,15 @@ jobs:
       - name: Archive production artifacts
         run: |
           mkdir -p build/artifacts
-          zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            Compress-Archive -Path ./build/bin/* -DestinationPath build/artifacts/${{ matrix.asset_name }}.zip
+          else
+            zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
+          fi
+        shell: bash
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: binaries-${{ matrix.os }}
           path: build/artifacts/*
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: binaries-${{ matrix.os }}
-          path: ${{ matrix.os }}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          tag_name: tag-${{ github.sha }}
-          release_name: Thermcoin Beta ${{ github.run_id }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ matrix.os }}/binaries-${{ matrix.os }}.zip
-          asset_name: binaries-${{ matrix.os }}.zip
-          asset_content_type: application/zip
