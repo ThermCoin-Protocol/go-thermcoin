@@ -1,4 +1,45 @@
-### Connecting to Thermcoin Network
+# Connecting to Thermcoin Network
+
+## Create wallet with MetaMask
+
+1. Download and open MetaMask
+
+2. Go to Settings -> Add a network -> Add a network manually
+
+3. Fill in network URL and chain ID
+
+   <b>Network name</b>: Thermcoin Network
+   <b>RPC URL</b>: http://3.80.95.168:8545
+   <b>Chain ID</b>: 4222
+   <b>Symbol</b>: BTUC
+
+## Mining quick-start guide
+
+1. Download Thermcoin executable from https://github.com/ThermCoin-Protocol/go-thermcoin/releases/
+
+2. Unzip and place "therm" executable in folder with genesis block (genesis.json)
+
+3. Set up your data directory:
+
+   ```shell
+
+   mkdir myNode
+
+   ./therm --datadir ./myNode init genesis.json
+
+   ```
+
+4. Start your miner and connect to the Thermcoin network, make sure to replace --miner.etherbase with your wallet address:
+
+   ```shell
+
+   ./therm --datadir ./myNode --bootnodes enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304 console  --mine --miner.threads=1 --miner.etherbase=0x000...
+
+   admin.addPeer("enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303")
+
+   ```
+
+Congrats! You are now connected and supporting the Thermcoin protocol
 
 #### Network URL (JSON-RPC Endpoints)
 
