@@ -1,21 +1,25 @@
 ### Connecting to Thermcoin Network
 
-#### RPC-URL
+#### Network URL (JSON-RPC Endpoints)
 
 3.80.95.168:8545
+3.80.95.168:8546
 
-#### Bootnode enode-url
+#### Bootnode Enode-URL's
 
-enode://9b7aef0c30f6f51036e26067181768d138b01529607fe21b26897e7e5ebd8f9a75fc4b3bf266bf6dc27942b8d6b52d21af414942a4f2604a648adb308a156fa8@3.80.95.168:30303
+enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303
 
-#### Node enode-url
+enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304
 
-enode://38f300385a6ece61f90c8ef45ededf4257a7e3f3942345e3606ec257d32098865787b07326d59a48cb9757eb2a7006474396ab8bfe6f86c2a039fcefc92a96ba@3.80.95.168:30304
+enode://d645fa278e5b7e3d0f0496c04587704de8ad5331fa06bfd226ca5c207849e060bc11bc29a6064456d26e0f25ebb33e4de21e9bf8caa798af3c6e06f49691d2e5@3.80.95.168:30305
 
 #### Download ThermCoin binaries or build from source
 
-Thermcoin binaries are released and hosted on github for download. Otherwise, clone this repo and
+ThermCoin binaries are released and hosted on github for download. Otherwise, clone this repo and
 build from source.
+
+Download the latest binaries from here:
+https://github.com/ThermCoin-Protocol/go-thermcoin/releases/
 
 Building `therm` requires both a Go (version 1.16 or later) and a C compiler. You can install
 them using your favourite package manager. Once the dependencies are installed, run
@@ -34,7 +38,7 @@ make all
 
 The `genesis.json` file included in this repo defines the genesis block of the ThermCoin network.
 
-For the Thermcoin network. you'll need to initialize **every**
+For the ThermCoin network. you'll need to initialize **every**
 `therm` node with it prior to starting it up to ensure all blockchain parameters are correctly
 set:
 
@@ -42,14 +46,13 @@ set:
 $ therm init genesis.json
 ```
 
-#### Creating the rendezvous point (DEV ONLY)
+#### Creating the rendezvous point (For devs)
 
 Bootnodes jumpstart the network by allowing nodes to quickly connect and find other peers.
 
 ```shell
 $ bootnode --genkey=boot.key
-$ bootnode --nodekey=boot.key
-$ bootnode --nodekey=boot.key -verbosity 7 -addr "172.31.22.253:30303"
+$ bootnode --nodekey=boot.key -verbosity 7 -addr "0.0.0.0:30303"
 ```
 
 Bootnodes will display an `enode` URL that other nodes can use to connect to it and exchange peer information. Make sure to
@@ -79,7 +82,7 @@ also need to configure a miner to process transactions and create new blocks for
 To start a `therm` instance for mining, run it with all your usual flags, extended by:
 
 ```shell
-$ therm <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x0000000000000000000000000000000000000000
+$ therm <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x000...
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all
@@ -87,64 +90,41 @@ proceedings to the account specified by `--miner.etherbase`. You can further tun
 by changing the default gas limit blocks converge to (`--miner.targetgaslimit`) and the price
 transactions are accepted at (`--miner.gasprice`).
 
-### DEV TESTNET GUIDE
+#### DEV GUIDE
 
-#### First create datadirs and account:
+##### Bootnode:
 
 ```shell
-$ mkdir boot1 node1 node2 node3
-$ therm --datadir node3 account new
+mkdir bootnode
+therm --datadir ~/bootnode init genesis.json
+cd bootnode
+bootnode --genkey boot.key
+nohup bootnode --nodekey boot.key --addr 0.0.0.0:30303 &
 ```
 
-#### Copy the account addrs into the genesis.json alloc. Init datadirs
+##### Open-node 1 (OPEN HTTP ACCESS):
 
 ```shell
-$ therm --datadir boot1 init genesis.json
-$ therm --datadir node1 init genesis.json
-$ therm --datadir node2 init genesis.json
-$ therm --datadir node3 init genesis.json
+mkdir node1
+therm --datadir ~/node1 init genesis.json
+cd ~/node1
+nohup therm --datadir ~/node1 --nat extip:3.80.95.168 --bootnodes enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303 --port 30304 --http --http.addr 0.0.0.0 --http.port 8545 --http.corsdomain '*' &
 ```
 
-#### Boot node:
+##### Open-node 2 (OPEN HTTP ACCESS):
 
 ```shell
-$ bootnode --genkey=boot.key
-$ bootnode --nodekey=boot.key -addr :30305
+mkdir node2
+therm --datadir ~/node2 init genesis.json
+cd ~/node2
+nohup therm --datadir ~/node2 --nat extip:3.80.95.168 --bootnodes enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303 --port 30305 --http --http.addr 0.0.0.0 --http.port 8546 --http.corsdomain '*' --authrpc.port 8552 &
 ```
 
-Copy the enode-url
-
-Now create 3 different nodes in different terminals
-
-#### Node with javascript console and account:
+#### Add a peer
 
 ```shell
-$ therm --datadir node1 --port 30306 --bootnodes <enode-url> --unlock <0xADDRESS> --password node1/password.txt --authrpc.port 8551
-```
-
-#### Node with HTTP Access:
-
-```shell
-$ therm --datadir node2 --port 30307 --bootnodes <enode-url>  --http --http.addr "localhost" --http.port 8545 --http.api "eth,web3,net" --http.corsdomain "*"
-```
-
-#### Mining Node:
-
-```shell
-$ therm --datadir node3 --port 30308 --bootnodes <enode-url>  --mine --miner.threads=1 --miner.etherbase=<0xADDRESS>
-```
-
-#### Javascript console commands
-
-```shell
-> eth.getBalance(eth.accounts[0])
-> eth.sendTransaction({
-  to: '0x00',
-  from: eth.accounts[0],
-  value: 25000
-});
-```
-
-```shell
-$ rm -rf boot1 node1 node2 node3 boot.key
+therm attach therm.ipc
+admin.peers
+admin.nodeInfo.enode
+admin.addPeer("enode://<enode-url-of-first-node>")
 ```
