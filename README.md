@@ -8,10 +8,10 @@
 
 3. Fill in network URL and chain ID
 
-   Network name: Thermcoin Network
-   RPC URL: http://3.80.95.168:8545
-   Chain ID: 4222
-   Symbol: BTUC
+   Network name: Thermcoin Network <br/>
+   RPC URL: http://3.80.95.168:8545 <br/>
+   Chain ID: 4222 <br/>
+   Symbol: BTUC <br/>
 
 ## Mining quick-start guide
 
