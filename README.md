@@ -15,8 +15,8 @@
    
 4. Import token:
 
-   Contract address: 0x943C36AC7eDf7889610f7A2ecB1C2a479bE6De24
-   Symbol: BTUC
+   Contract address: 0x943C36AC7eDf7889610f7A2ecB1C2a479bE6De24 <br/>
+   Symbol: BTUC <br/>
 
 ## Mining quick-start guide
 
