@@ -12,6 +12,11 @@
    RPC URL: http://3.80.95.168:8545 <br/>
    Chain ID: 4222 <br/>
    Symbol: BTUC <br/>
+   
+4. Import token:
+
+   Contract address: 0x943C36AC7eDf7889610f7A2ecB1C2a479bE6De24
+   Symbol: BTUC
 
 ## Mining quick-start guide
 
