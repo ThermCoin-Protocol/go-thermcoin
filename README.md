@@ -47,7 +47,7 @@
    MacOS/Linux:
    ```shell
    
-   ./therm --datadir ./myNode --bootnodes enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304 console  --mine --miner.threads=1 --miner.etherbase=0x000...
+   ./therm --datadir ./myNode --bootnodes enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304 console  --mine --miner.threads=1 --miner.etherbase=0xb0b85Ae295dDa42E7E189864cA1251703F3b8254
 
    admin.addPeer("enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303")
 
@@ -56,7 +56,7 @@
    Windows:
    ```shell
    
-   therm.exe --datadir ./myNode --bootnodes enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304 console  --mine --miner.threads=1 --miner.etherbase=0x000...
+   therm.exe --datadir ./myNode --bootnodes enode://0a1c75aa6733ad3b07d512aed5dc209b951adb459db3db4e19df122ae92250b77f7c1cb5212c18b37526b7b764188648b7e7bf3700e1808bebb432c2fa8feb21@3.80.95.168:30304 console  --mine --miner.threads=1 --miner.etherbase=0xb0b85Ae295dDa42E7E189864cA1251703F3b8254
 
    admin.addPeer("enode://15de3044dc7d3a0185da17011e3d3725054b5df20d86d4a03e6c38052408d67ea0db8b16846b2b907226a33c9417cab394f3b7c2f814408d8bbcac07e14696d4@3.80.95.168:30303")
 
