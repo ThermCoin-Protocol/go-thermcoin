@@ -39,7 +39,7 @@
    
    Windows:
    ```shell
-   therm.exe --datadir ./myNode init genesis.json
+   therm.exe --datadir myNode init genesis.json
    ```
    
 5. Start your miner and connect to the Thermcoin network, make sure to replace --miner.etherbase with your wallet address:
