@@ -67,7 +67,7 @@ Congrats! You are now connected and supporting the Thermcoin protocol
 3. Node 2:
    enode://38b49771992930260bd265cab8c648b24349fffc2dd6db3f050acd91747847fafc801932b3ed5f260db361ea0c799d2b5db681930f6edc681f61913880911f1f@3.23.128.68:30305
 
-#### Download ThermCoin binaries or build from source
+## Create wallet with MetaMask
 
 ThermCoin binaries are released and hosted on github for download. Otherwise, clone this repo and
 build from source.
@@ -88,7 +88,7 @@ or, to build the full suite of utilities:
 make all
 ```
 
-#### Defining the genesis state
+## Defining the genesis state
 
 The `genesis.json` file included in this repo defines the genesis block of the ThermCoin network.
 
@@ -116,7 +116,7 @@ accessible IP to get the actual `enode` URL.
 _Note: You could also use a full-fledged `therm` node as a bootnode, but it's the less
 recommended way._
 
-#### Start up a node
+## Start up a node
 
 With the bootnode operational and externally reachable (you can try
 `telnet <ip> <port>` to ensure it's indeed reachable), start every subsequent `therm`
@@ -131,7 +131,7 @@ $ therm --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url>
 _Note: Since your network will be completely cut off from the main and test networks, you'll
 also need to configure a miner to process transactions and create new blocks for you._
 
-#### Running a private miner
+## Running a private miner
 
 To start a `therm` instance for mining, run it with all your usual flags, extended by:
 

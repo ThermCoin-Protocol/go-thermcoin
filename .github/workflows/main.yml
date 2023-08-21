@@ -1,0 +1,124 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - thermcoin-beta
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            asset_name: thermcoin-ubuntu
+          - os: windows-latest
+            asset_name: thermcoin-windows.exe
+          - os: macos-latest
+            asset_name: thermcoin-macos
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Build
+        run: make all
+
+      - name: Create artifacts directory
+        run: New-Item -Path . -Name "build\artifacts" -ItemType "directory" -Force
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+
+      - name: Create artifacts directory
+        run: mkdir -p build/artifacts
+        if: matrix.os != 'windows-latest'
+
+      - name: Archive production artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          Compress-Archive -Path .\build\bin\* -DestinationPath .\build\artifacts\${{ matrix.asset_name }}.zip
+        shell: powershell
+
+      - name: Archive production artifacts (Linux/MacOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          zip -r build/artifacts/${{ matrix.asset_name }}.zip ./build/bin/*
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.asset_name }}.zip
+          path: build/artifacts/${{ matrix.asset_name }}.zip
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts Ubuntu
+        uses: actions/download-artifact@v2
+        with:
+          name: thermcoin-ubuntu.zip
+          path: ubuntu
+
+      - name: Download artifacts Windows
+        uses: actions/download-artifact@v2
+        with:
+          name: thermcoin-windows.exe.zip
+          path: windows
+
+      - name: Download artifacts MacOS
+        uses: actions/download-artifact@v2
+        with:
+          name: thermcoin-macos.zip
+          path: macos
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: tag-${{ github.sha }}
+          release_name: Thermcoin Beta ${{ github.run_id }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Therm Ubuntu
+        id: upload-release-asset-ubuntu
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ubuntu/thermcoin-ubuntu.zip
+          asset_name: thermcoin-ubuntu.zip
+          asset_content_type: application/zip
+
+      - name: Upload Therm MacOS
+        id: upload-release-asset-macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./macos/thermcoin-macos.zip
+          asset_name: thermcoin-macos.zip
+          asset_content_type: application/zip
+
+      - name: Upload Therm Windows
+        id: upload-release-asset-windows
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./windows/thermcoin-windows.exe.zip
+          asset_name: thermcoin-windows.zip
+          asset_content_type: application/zip

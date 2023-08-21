@@ -1162,7 +1162,7 @@ func doXCodeFramework(cmdline []string) {
 
 	// Create the archive.
 	maybeSkipArchive(env)
-	archive := "therm-" + archiveBasename("ios", params.ArchiveVersion(env.Commit))
+	archive := "geth-" + archiveBasename("ios", params.ArchiveVersion(env.Commit))
 	if err := os.MkdirAll(archive, 0755); err != nil {
 		log.Fatal(err)
 	}
