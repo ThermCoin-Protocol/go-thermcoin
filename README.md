@@ -1,9 +1,79 @@
-### Connecting to Thermcoin Network
+# Connecting to Thermcoin Network
+
+## Create wallet with MetaMask
+
+1. Download and open MetaMask
+
+2. Go to Settings -> Add a network -> Add a network manually
+
+3. Fill in network URL and chain ID
+
+   Network name: Thermcoin Network
+   RPC URL: http://3.23.128.68:8545
+   Chain ID: 42221
+   Symbol: Promethius
+
+4. Import token:
+   Contract address: 0xB5db108Cb7378c2Fd680e934686BCb81F63aDB49
+   Token symbol: BTUC
+
+## Mining quick-start guide
+
+1. Download Thermcoin executable from https://github.com/ThermCoin-Protocol/go-thermcoin/releases/
+
+2. Unzip and place "therm" executable in folder with genesis block (genesis.json)
+
+3. Set up your data directory:
+
+   ```shell
+
+   mkdir myNode
+
+   ./therm --datadir ./myNode init genesis.json
+
+   ```
+
+4. Start your miner and connect to the Thermcoin network, make sure to replace --miner.etherbase with your wallet address:
+
+   ```shell
+
+   ./therm --datadir ./myNode --bootnodes enode://013d9d55cb18fc36efea3cf846742a020b1c6468f6073750b01252061d65ce5d0fff0fa980490b6eface44a0c8bdf743d4aa5ec7754265be7abd80be24356116@3.23.128.68:30303 console  --snapshot=false --mine --miner.threads=1 --miner.etherbase=0xb0b85Ae295dDa42E7E189864cA1251703F3b8254
+
+
+
+   admin.addPeer("enode://013d9d55cb18fc36efea3cf846742a020b1c6468f6073750b01252061d65ce5d0fff0fa980490b6eface44a0c8bdf743d4aa5ec7754265be7abd80be24356116@3.23.128.68:30303")
+
+   admin.addPeer("enode://bbcda61c5f838e8429b7f2b59ccccca7f54b8bf20590d467e327f66cfe3bf4ef440ce84888b3e21f565f0febfc8d03d16afc6e97e2928e6190889936b4b8e204@3.23.128.68:30304")
+
+   admin.addPeer("enode://38b49771992930260bd265cab8c648b24349fffc2dd6db3f050acd91747847fafc801932b3ed5f260db361ea0c799d2b5db681930f6edc681f61913880911f1f@3.23.128.68:30305")
+
+   ```
+
+Congrats! You are now connected and supporting the Thermcoin protocol
+
+#### Network URL (JSON-RPC Endpoints)
+
+3.23.128.68:8545
+3.23.128.68:8546
+
+#### Bootnode Enode-URL's
+
+1. Bootnode:
+   enode://013d9d55cb18fc36efea3cf846742a020b1c6468f6073750b01252061d65ce5d0fff0fa980490b6eface44a0c8bdf743d4aa5ec7754265be7abd80be24356116@3.23.128.68:30303
+
+2. Node 1:
+   enode://bbcda61c5f838e8429b7f2b59ccccca7f54b8bf20590d467e327f66cfe3bf4ef440ce84888b3e21f565f0febfc8d03d16afc6e97e2928e6190889936b4b8e204@3.23.128.68:30304
+
+3. Node 2:
+   enode://38b49771992930260bd265cab8c648b24349fffc2dd6db3f050acd91747847fafc801932b3ed5f260db361ea0c799d2b5db681930f6edc681f61913880911f1f@3.23.128.68:30305
 
 #### Download ThermCoin binaries or build from source
 
-Thermcoin binaries are released and hosted on github for download. Otherwise, clone this repo and
+ThermCoin binaries are released and hosted on github for download. Otherwise, clone this repo and
 build from source.
+
+Download the latest binaries from here:
+https://github.com/ThermCoin-Protocol/go-thermcoin/releases/
 
 Building `therm` requires both a Go (version 1.16 or later) and a C compiler. You can install
 them using your favourite package manager. Once the dependencies are installed, run
@@ -22,21 +92,21 @@ make all
 
 The `genesis.json` file included in this repo defines the genesis block of the ThermCoin network.
 
-For the Thermcoin network. you'll need to initialize **every**
+For the ThermCoin network. you'll need to initialize **every**
 `therm` node with it prior to starting it up to ensure all blockchain parameters are correctly
 set:
 
 ```shell
-$ ./build/bin/therm init genesis.json
+$ therm init genesis.json
 ```
 
-#### Creating the rendezvous point (DEV ONLY)
+#### Creating the rendezvous point (For devs)
 
 Bootnodes jumpstart the network by allowing nodes to quickly connect and find other peers.
 
 ```shell
-$ ./build/bin/bootnode --genkey=boot.key
-$ ./build/bin/bootnode --nodekey=boot.key
+$ bootnode --genkey=boot.key
+$ bootnode --nodekey=boot.key -verbosity 7 -addr "0.0.0.0:30303"
 ```
 
 Bootnodes will display an `enode` URL that other nodes can use to connect to it and exchange peer information. Make sure to
@@ -55,7 +125,7 @@ probably also be desirable to keep the data directory of your private network se
 do also specify a custom `--datadir` flag.
 
 ```shell
-$ ./build/bin/therm --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url>
+$ therm --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url>
 ```
 
 _Note: Since your network will be completely cut off from the main and test networks, you'll
@@ -66,7 +136,7 @@ also need to configure a miner to process transactions and create new blocks for
 To start a `therm` instance for mining, run it with all your usual flags, extended by:
 
 ```shell
-$ therm <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x0000000000000000000000000000000000000000
+$ therm <usual-flags> --mine --miner.threads=1 --miner.etherbase=0x000...
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all
@@ -74,64 +144,42 @@ proceedings to the account specified by `--miner.etherbase`. You can further tun
 by changing the default gas limit blocks converge to (`--miner.targetgaslimit`) and the price
 transactions are accepted at (`--miner.gasprice`).
 
-### DEV TESTNET GUIDE
+#### DEV GUIDE
 
-#### First create datadirs and account:
+##### Bootnode:
 
 ```shell
-$ mkdir boot1 node1 node2 node3
-$ ./build/bin/therm --datadir node3 account new
+mkdir boot
+~/build/bin/therm --datadir ~/boot init ~/build/bin/genesis.json
+cd boot
+~/build/bin/bootnode --genkey boot.key
+nohup ~/build/bin/bootnode --nodekey boot.key --addr 0.0.0.0:30303 > bootnohup.txt &
+cd ..
 ```
 
-#### Copy the account addrs into the genesis.json alloc. Init datadirs
+##### Open-node 1 (OPEN HTTP ACCESS):
 
 ```shell
-$ ./build/bin/therm --datadir boot1 init genesis.json
-$ ./build/bin/therm --datadir node1 init genesis.json
-$ ./build/bin/therm --datadir node2 init genesis.json
-$ ./build/bin/therm --datadir node3 init genesis.json
+mkdir node1
+~/build/bin/therm --datadir ~/node1 init ~/build/bin/genesis.json
+cd ~/node1
+nohup ~/build/bin/therm --datadir ~/node1 --nat extip:3.23.128.68 --bootnodes enode://013d9d55cb18fc36efea3cf846742a020b1c6468f6073750b01252061d65ce5d0fff0fa980490b6eface44a0c8bdf743d4aa5ec7754265be7abd80be24356116@3.23.128.68:30303 --port 30304 --http --http.addr 0.0.0.0 --http.port 8545 --http.corsdomain '*' > node1nohup.txt &
 ```
 
-#### Boot node:
+##### Open-node 2 (OPEN HTTP ACCESS):
 
 ```shell
-$ ./build/bin/bootnode --genkey=boot.key
-$ ./build/bin/bootnode --nodekey=boot.key -addr :30305
+mkdir node2
+~/build/bin/therm --datadir ~/node2 init ~/build/bin/genesis.json
+cd ~/node2
+nohup ~/build/bin/therm --datadir ~/node2 --nat extip:3.23.128.68 --bootnodes enode://013d9d55cb18fc36efea3cf846742a020b1c6468f6073750b01252061d65ce5d0fff0fa980490b6eface44a0c8bdf743d4aa5ec7754265be7abd80be24356116@3.23.128.68:30303,enode://bbcda61c5f838e8429b7f2b59ccccca7f54b8bf20590d467e327f66cfe3bf4ef440ce84888b3e21f565f0febfc8d03d16afc6e97e2928e6190889936b4b8e204@3.23.128.68:30304 --port 30305 --http --http.addr 0.0.0.0 --http.port 8546 --http.corsdomain '*' --authrpc.port 8552 > node2nohup.txt &
 ```
 
-Copy the enode-url
-
-Now create 3 different nodes in different terminals
-
-#### Node with javascript console and account:
+#### Add a peer
 
 ```shell
-$ ./build/bin/therm --datadir node1 --port 30306 --bootnodes <enode-url> --unlock <0xADDRESS> --password node1/password.txt --authrpc.port 8551
-```
-
-#### Node with HTTP Access:
-
-```shell
-$ ./build/bin/therm --datadir node2 --port 30307 --bootnodes <enode-url>  --http --http.addr "localhost" --http.port 8545 --http.api "eth,web3,net" --http.corsdomain "*"
-```
-
-#### Mining Node:
-
-```shell
-$ ./build/bin/therm --datadir node3 --port 30308 --bootnodes <enode-url>  --mine --miner.threads=1 --miner.etherbase=<0xADDRESS>
-```
-
-#### Javascript console commands
-
-```shell
-> eth.getBalance(eth.accounts[0])
-> eth.sendTransaction({
-  to: '0x00',
-  from: eth.accounts[0],
-  value: 25000
-});
-```
-
-```shell
-$ rm -rf boot1 node1 node2 node3 boot.key
+therm attach therm.ipc
+admin.peers
+admin.nodeInfo.enode
+admin.addPeer("enode://<enode-url-of-first-node>")
 ```
