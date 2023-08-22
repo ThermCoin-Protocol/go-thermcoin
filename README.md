@@ -9,12 +9,17 @@
 3. Fill in network URL and chain ID
 
    Network name: Thermcoin Network
+
    RPC URL: http://3.23.128.68:8545
+
    Chain ID: 42221
+
    Symbol: Promethius
 
 4. Import token:
+
    Contract address: 0xB5db108Cb7378c2Fd680e934686BCb81F63aDB49
+
    Token symbol: BTUC
 
 ## Mining quick-start guide
