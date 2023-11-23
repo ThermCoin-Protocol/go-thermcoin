@@ -54,3 +54,5 @@ package.json
 package-lock.json
 
 wallets.txt
+
+DEV_COMMANDS.md
